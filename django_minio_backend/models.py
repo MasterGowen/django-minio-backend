@@ -233,7 +233,7 @@ class MinioBackend(Storage):
         name. The datetime will be timezone-aware if USE_TZ=True.
         """
         obj = self.stat(name)
-        return datetime.strptime(obj.last_modified, '%Y-%m-%d %H:%M:%S%z')
+        return datetime.fromtimestamp(mktime(obj.last_modified.timetuple()))
 
     @staticmethod
     def _guess_content_type(file_path_name: str, content: InMemoryUploadedFile):
