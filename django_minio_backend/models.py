@@ -1,25 +1,25 @@
+# noinspection PyPackageRequirements minIO_requirement
+import certifi
 import io
 import json
 import mimetypes
-import ssl
-from datetime import datetime, timedelta
-from pathlib import Path
-from time import mktime
-from typing import Union, List
-
-# noinspection PyPackageRequirements minIO_requirement
-import certifi
 import minio
 import minio.datatypes
 import minio.error
 import minio.helpers
+import ssl
 # noinspection PyPackageRequirements minIO_requirement
 import urllib3
+from datetime import datetime, timedelta
+from django.conf import settings
 from django.core.files import File
 from django.core.files.storage import Storage
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.deconstruct import deconstructible
 from django.utils.timezone import utc
+from pathlib import Path
+from time import mktime
+from typing import Union, List
 
 from .utils import MinioServerStatus, PrivatePublicMixedError, ConfigurationError, get_setting
 
@@ -47,7 +47,7 @@ class MinioBackend(Storage):
     """
 
     def __init__(self,
-                 bucket_name: str,
+                 bucket_name: str = settings.STATIC_ROOT,
                  *args,
                  **kwargs):
 
