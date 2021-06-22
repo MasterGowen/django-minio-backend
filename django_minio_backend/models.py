@@ -20,6 +20,9 @@ from django.utils.timezone import utc
 from pathlib import Path
 from time import mktime
 from typing import Union, List
+import logging
+
+logger = logging.getLogger(__name__)
 
 from .utils import MinioServerStatus, PrivatePublicMixedError, ConfigurationError, get_setting
 
@@ -230,6 +233,7 @@ class MinioBackend(Storage):
         name. The datetime will be timezone-aware if USE_TZ=True.
         """
         obj = self.stat(name)
+        logger.warning(f"get_modified_time - {obj.last_modified}")
         return datetime.fromtimestamp(mktime(obj.last_modified))
 
     @staticmethod
